@@ -4,328 +4,150 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Relationer – Skattningstest (25 frågor)</title>
-  <meta name="description" content="Relationsdelen – fördjupande skattningstest med 25 frågor. En fråga i taget, svarsskala 1–5, export till TXT." />
   <style>
     :root{
-      --bg:#0b0f1a; --card:#131a2a; --muted:#94a3b8; --text:#e5e7eb; --accent:#60a5fa;
+      --bg:#0b0f1a; --card:#131a2a; --muted:#9ca3af; --text:#f3f4f6; --accent:#60a5fa;
       --ok:#34d399; --warn:#f59e0b; --bad:#ef4444; --bar:#2563eb; --bar-muted:#1f2937;
-      --btn:#1d4ed8; --btn-hover:#1e40af; --btn-active:#172554;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
       background:linear-gradient(120deg,#0b0f1a 0%, #0f172a 100%); color:var(--text);
-      display:flex; align-items:center; justify-content:center; padding:24px;
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
     }
-    .app{
-      width:100%; max-width:860px; background:var(--card); border:1px solid #0f172a66;
-      border-radius:20px; padding:24px; box-shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    header{display:flex; align-items:center; gap:16px; margin-bottom:12px}
-    header .logo{
-      width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#1e293b,#0ea5e9);
-      display:grid; place-items:center; font-weight:700; color:#fff;
-      box-shadow:inset 0 0 10px #ffffff22, 0 6px 16px #00000055;
-    }
-    h1{font-size:clamp(18px,3.2vw,28px); margin:0}
-    .sub{color:var(--muted); font-size:14px}
-
-    .progress{
-      height:10px; background:var(--bar-muted); border-radius:999px; overflow:hidden; margin:18px 0 8px;
-    }
-    .progress > div{height:100%; width:0%; background:linear-gradient(90deg,#38bdf8,#6366f1); transition:width .25s ease}
-
+    .wrap{width:100%; max-width:900px}
     .card{
-      background:#0f172a; border:1px solid #0b1220; border-radius:16px; padding:22px; margin-top:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.35);
+      overflow:hidden;
     }
-    .q-meta{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; color:var(--muted); font-size:14px}
-    .question{font-size:clamp(18px,2.5vw,22px); line-height:1.35; margin:8px 0 14px}
-
-    .scale{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin:10px 0 0}
-    .btn{
-      appearance:none; border:none; cursor:pointer; padding:16px 0; border-radius:12px;
-      font-size:18px; font-weight:700; color:#fff; background:var(--btn);
-      box-shadow:0 6px 14px #1d4ed899; transition:transform .06s ease, box-shadow .2s ease, background .15s ease;
-      user-select:none;
-    }
-    .btn:hover{background:var(--btn-hover)}
-    .btn:active{transform:translateY(1px); background:var(--btn-active)}
-    .btn[aria-pressed="true"]{outline:2px solid #93c5fd; box-shadow:0 0 0 6px #1d4ed833}
-
-    .nav{
-      display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;
-    }
-    .secondary{
-      background:#0b1220; color:#cbd5e1; border:1px solid #1e293b; padding:12px 14px; border-radius:12px;
-      font-weight:600; cursor:pointer;
-    }
-    .secondary:hover{background:#0e1626}
-    .primary{
-      background:linear-gradient(90deg,#3b82f6,#22d3ee); color:#001; border:none; padding:12px 16px; border-radius:12px;
-      font-weight:800; cursor:pointer;
-    }
-    .primary:disabled{opacity:.5; cursor:not-allowed}
-
-    .result{
-      display:none;
-    }
-    .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px}
-    .kpi{background:#0b1220; border:1px solid #172032; border-radius:14px; padding:14px}
-    .kpi h3{margin:0 0 6px 0; font-size:14px; color:var(--muted)}
-    .kpi .val{font-size:22px; font-weight:800}
-    .bad{color:var(--bad)} .warn{color:var(--warn)} .ok{color:var(--ok)}
-
-    .export{
-      margin-top:18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center
-    }
-
-    footer{margin-top:22px; color:var(--muted); font-size:12px; text-align:center}
-    .hidden{display:none !important}
+    header{padding:22px 24px; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; flex-wrap:wrap}
+    h1{font-size:20px; margin:0; font-weight:700}
+    .muted{color:var(--muted); font-size:14px}
+    .bar{height:10px; width:100%; background:var(--bar-muted); border-radius:999px; overflow:hidden}
+    .bar>span{display:block; height:100%; width:0%; background:linear-gradient(90deg,#1d4ed8,#3b82f6); transition:width 240ms ease}
+    .content{padding:24px}
+    .q-meta{display:flex; justify-content:space-between; margin-bottom:12px; font-size:13px; color:var(--muted)}
+    .question{font-size:22px; margin:6px 0 14px}
+    .scale{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:8px}
+    .btn{appearance:none; border:none; border-radius:12px; padding:14px 16px; font-weight:600; cursor:pointer; color:var(--text)}
+    .btn.primary{background:linear-gradient(180deg,#1f62ff,#1140bf)}
+    .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,0.08)}
+    .scale .option{background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; cursor:pointer; font-size:18px; font-weight:700; height:58px; display:flex; align-items:center; justify-content:center}
+    .scale .option.active{outline:2px solid var(--accent); background:rgba(96,165,250,0.18)}
+    .legend{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-top:6px}
+    .result{display:grid; gap:14px; margin-top:6px; background:rgba(0,0,0,0.25); padding:18px; border:1px solid rgba(255,255,255,0.06); border-radius:12px}
+    .meter{height:12px; background:var(--bar-muted); border-radius:999px; overflow:hidden}
+    .meter>span{display:block; height:100%; width:0%; transition:width 300ms ease}
+    .tag{font-size:12px; color:white; padding:2px 8px; border-radius:999px}
+    .tag.ok{background:var(--ok)} .tag.warn{background:var(--warn)} .tag.bad{background:var(--bad)}
+    .form{display:grid; gap:10px; margin-top:12px}
+    .input{width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:var(--text)}
+    .helper{font-size:12px; color:var(--muted)}
+    .error{color:#fecaca; font-size:12px; display:none}
+    .row{display:grid; gap:10px}
+    @media(min-width:640px){.row{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
-  <main class="app" role="main">
+<div class="wrap">
+  <div class="card" id="app">
     <header>
-      <div class="logo" aria-hidden="true">R</div>
       <div>
         <h1>Relationer – Skattningstest (25 frågor)</h1>
-        <div class="sub">En fråga i taget. Svara på skalan 1–5 (1 = stämmer inte, 5 = stämmer helt).</div>
+        <div class="muted">En fråga i taget. Svara 1–5.</div>
+      </div>
+      <div style="min-width:220px">
+        <div class="bar"><span id="progress"></span></div>
+        <div class="muted" id="counter" style="text-align:right; margin-top:6px">0 / 25</div>
       </div>
     </header>
 
-    <div class="progress" aria-label="Framsteg">
-      <div id="bar"></div>
+    <!-- Frågor -->
+    <div class="content" id="questionView">
+      <div class="q-meta"><span id="qTheme">Tema</span><span id="qId">Fråga 1/25</span></div>
+      <div class="question" id="qText">…</div>
+      <div class="scale" id="scale"></div>
+      <div class="legend"><span>1 = Stämmer inte alls</span><span>5 = Stämmer helt</span></div>
+      <div class="actions"><button class="btn ghost" id="prevBtn" disabled>Föregående</button><button class="btn primary" id="nextBtn">Nästa</button></div>
     </div>
-    <div class="sub" id="counter" aria-live="polite">Fråga 1 av 25</div>
 
-    <section class="card" id="quiz">
-      <div class="q-meta">
-        <span>Del: <strong>Relationer</strong></span>
-        <span id="qKey">Nyckel: R-01</span>
+    <!-- Resultat -->
+    <div class="content hidden" id="resultView">
+      <h2>Resultat</h2>
+      <div class="result">
+        <div style="display:flex; justify-content:space-between"><strong>Totalt relationsläge</strong><span id="totalTag" class="tag">—</span></div>
+        <div class="meter"><span id="totalBar"></span></div>
+        <div class="muted" id="totalText">—</div>
       </div>
-      <div class="question" id="questionText">
-        <!-- Frågetext sätts i JS -->
+      <h3>Delskalor</h3>
+      <div class="result" id="subscalesContainer"></div>
+      <div class="actions"><button class="btn ghost" id="restartBtn">Starta om</button><button class="btn primary" id="exportBtn">Exportera (.txt)</button></div>
+
+      <!-- Säljpitch + Form -->
+      <div class="content" style="margin-top:20px; background:rgba(0,0,0,0.25); padding:18px; border-radius:12px;">
+        <h2>Coachande samtal – nästa steg</h2>
+        <p>I ett samtal får du hjälp att stärka dina relationer med handlingsplan, uppföljning och stöd.</p>
+        <h3>Vem är jag?</h3>
+        <p>Jag studerar <strong>folkhälsovetenskap med inriktning beteendevetenskap</strong>. Coachingen är <strong>rabatterad</strong> under studietiden och sker under <strong>full sekretess</strong> enligt GDPR och Dataskyddslagen.</p>
+        <form id="contactForm" class="form" action="https://formsubmit.co/kalle.forshell0038@stud.hkr.se" method="POST" onsubmit="return prepareFormPayload()">
+          <input type="hidden" name="_subject" value="Intresse för coachande samtal – relationer" />
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="row">
+            <div><input id="cf_name" class="input" type="text" name="Namn" placeholder="Namn" required /><div id="err_name" class="error">Ange ditt namn.</div></div>
+            <div><input id="cf_email" class="input" type="email" name="E-post" placeholder="E-post" required /><div id="err_email" class="error">Ange en giltig e-post.</div></div>
+          </div>
+          <input type="hidden" id="cf_total" name="Totalpoäng" /><input type="hidden" id="cf_summary" name="Sammanfattning" /><input type="hidden" id="cf_subscales" name="Delskalor" />
+          <label class="helper"><input id="cf_consent" type="checkbox" required /> Jag samtycker enligt GDPR.</label>
+          <button class="btn primary" type="submit">Skicka</button>
+        </form>
       </div>
-      <div class="scale" role="group" aria-label="Svarsskala 1 till 5">
-        <button class="btn" data-val="1">1</button>
-        <button class="btn" data-val="2">2</button>
-        <button class="btn" data-val="3">3</button>
-        <button class="btn" data-val="4">4</button>
-        <button class="btn" data-val="5">5</button>
-      </div>
-      <div class="nav">
-        <button id="backBtn" class="secondary">Tillbaka</button>
-        <button id="nextBtn" class="primary" disabled>Nästa</button>
-      </div>
-    </section>
+    </div>
+  </div>
+</div>
 
-    <section class="card result" id="result">
-      <h2>Resultat – Relationer</h2>
-      <p id="summary"></p>
-      <div class="kpis">
-        <div class="kpi"><h3>Poäng totalt</h3><div class="val" id="sumVal">–</div></div>
-        <div class="kpi"><h3>Snitt (1–5)</h3><div class="val" id="avgVal">–</div></div>
-        <div class="kpi"><h3>Tolkning</h3><div class="val" id="tagVal">–</div></div>
-      </div>
-      <div class="export">
-        <button id="exportBtn" class="primary">Exportera frågor + svar (.txt)</button>
-        <button id="restartBtn" class="secondary">Starta om</button>
-      </div>
-    </section>
-
-    <footer>Skala: 1 = stämmer inte · 2 = stämmer lite · 3 = neutral/delvis · 4 = stämmer mycket · 5 = stämmer helt</footer>
-  </main>
-
-  <script>
-    // -------- Frågebank (25 frågor – fördjupning av Relations-delen) ----------
-    const questions = [
-      // Baserade på 10 grundteman, utökade till 25
-      "Jag har nära och stödjande relationer.",
-      "Jag kommunicerar öppet och ärligt med personer som står mig nära.",
-      "Jag sätter och respekterar sunda gränser i relationer.",
-      "Jag hanterar konflikter på ett konstruktivt sätt.",
-      "Jag känner mig uppskattad av människor i min närhet.",
-      "Jag investerar regelbundet tid i mina relationer.",
-      "Jag har balans mellan arbete och privatliv som gynnar mina relationer.",
-      "Jag upplever tillit i mina viktigaste relationer.",
-      "Jag känner sällan ensamhet.",
-      "Jag är nöjd med mina relationer just nu.",
-      // Fördjupande tillägg
-      "Jag frågar aktivt efter andras behov och lyssnar in utan att avbryta.",
-      "Jag uttrycker mina egna behov och känslor utan skuld eller skam.",
-      "Jag reparerar efter konflikt genom ursäkt, förklaring och försoning.",
-      "Jag har ett nätverk jag kan be om hjälp av vid behov.",
-      "Jag prioriterar kvalitetstid med viktiga personer varje vecka.",
-      "Jag kan säga nej när det behövs utan att få dåligt samvete.",
-      "Jag visar uppskattning i vardagen (ord, handlingar, små gester).",
-      "Jag tar initiativ till sociala aktiviteter och kontakt.",
-      "Jag har relationer där jag kan vara mig själv fullt ut.",
-      "Jag sätter av skärmfri tid när jag umgås för att vara närvarande.",
-      "Jag hanterar svartsjuka och avund på ett moget sätt.",
-      "Jag kan ge och ta emot konstruktiv feedback utan att bli defensiv.",
-      "Jag har tydliga, uttalade förväntningar i mina nära relationer.",
-      "Jag följer upp löften och överenskommelser i mina relationer.",
-      "Jag vårdar både romantiska och vänskapliga relationer över tid."
-    ];
-
-    // -------- Tillstånd ----------
-    let idx = 0;
-    const answers = Array(questions.length).fill(null);
-
-    // -------- Element ----------
-    const bar = document.getElementById('bar');
-    const counter = document.getElementById('counter');
-    const qText = document.getElementById('questionText');
-    const qKey = document.getElementById('qKey');
-    const quiz = document.getElementById('quiz');
-    const result = document.getElementById('result');
-    const nextBtn = document.getElementById('nextBtn');
-    const backBtn = document.getElementById('backBtn');
-    const exportBtn = document.getElementById('exportBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const btns = Array.from(document.querySelectorAll('.btn[data-val]'));
-
-    const sumVal = document.getElementById('sumVal');
-    const avgVal = document.getElementById('avgVal');
-    const tagVal = document.getElementById('tagVal');
-    const summary = document.getElementById('summary');
-
-    // -------- Hjälpfunktioner ----------
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-
-    function updateProgress(){
-      const pct = Math.round((idx) / questions.length * 100);
-      bar.style.width = pct + '%';
-      counter.textContent = `Fråga ${idx+1} av ${questions.length}`;
-      qKey.textContent = `Nyckel: R-${String(idx+1).padStart(2,'0')}`;
-    }
-
-    function renderQuestion(){
-      qText.textContent = questions[idx];
-      btns.forEach(b=>{
-        const v = Number(b.dataset.val);
-        const selected = answers[idx] === v;
-        b.setAttribute('aria-pressed', selected ? 'true' : 'false');
-      });
-      nextBtn.disabled = answers[idx] == null;
-      backBtn.disabled = idx === 0;
-      updateProgress();
-    }
-
-    function goNext(){
-      if(answers[idx] == null) return;
-      if(idx < questions.length - 1){
-        idx++;
-        renderQuestion();
-      } else {
-        showResult();
-      }
-    }
-
-    function goBack(){
-      if(idx > 0){
-        idx--;
-        renderQuestion();
-      }
-    }
-
-    function showResult(){
-      // Summera
-      const sum = answers.reduce((a,b)=>a+(b||0),0);
-      const avg = sum / questions.length;
-
-      // Enkel tolkning
-      let tag = 'Behöver fokus';
-      let css = 'bad';
-      if(avg >= 3.6 && avg < 4.3){ tag='Stabilt'; css='warn'; }
-      else if(avg >= 4.3){ tag='Starkt område'; css='ok'; }
-
-      sumVal.textContent = `${sum} / ${questions.length*5}`;
-      avgVal.textContent = avg.toFixed(2);
-      tagVal.textContent = tag;
-      tagVal.className = `val ${css}`;
-
-      summary.textContent = `Du har besvarat ${questions.length} frågor i relationsdelen. Snittvärdet speglar din nuvarande självskattning där 3 är neutralt/delvis och 5 är starkt uppfyllt.`;
-
-      quiz.style.display = 'none';
-      result.style.display = 'block';
-      bar.style.width = '100%';
-      counter.textContent = `Klart – ${questions.length} frågor besvarade`;
-      qKey.textContent = 'Nyckel: R-25';
-      window.scrollTo({top:0, behavior:'smooth'});
-    }
-
-    function exportTxt(){
-      const lines = [];
-      const now = new Date();
-      const pad = (n)=>String(n).padStart(2,'0');
-      const ts = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-      lines.push(`Relationer – Skattningstest (25 frågor)`);
-      lines.push(`Exporttid: ${ts}`);
-      lines.push(`Skala: 1=stämmer inte, 2=stämmer lite, 3=neutral/delvis, 4=stämmer mycket, 5=stämmer helt`);
-      lines.push(``);
-      lines.push(`Sammanfattning:`);
-      const sum = answers.reduce((a,b)=>a+(b||0),0);
-      const avg = sum / questions.length;
-      lines.push(`  Poäng totalt: ${sum} / ${questions.length*5}`);
-      lines.push(`  Snitt (1–5): ${avg.toFixed(2)}`);
-      lines.push(``);
-
-      const label = v=>{
-        switch(v){
-          case 1: return 'Stämmer inte';
-          case 2: return 'Stämmer lite';
-          case 3: return 'Neutral / delvis';
-          case 4: return 'Stämmer mycket';
-          case 5: return 'Stämmer helt';
-          default: return '-';
-        }
-      };
-
-      lines.push(`Svar per fråga:`);
-      questions.forEach((q,i)=>{
-        const v = answers[i];
-        const key = `R-${String(i+1).padStart(2,'0')}`;
-        lines.push(`Fråga ${i+1} | Relationer | ${q} — Svar: ${v ?? '-'}${v?` (${label(v)})`:''}`);
-      });
-
-      const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `relationer_skattning_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
-    }
-
-    // -------- Händelser ----------
-    btns.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const val = Number(btn.dataset.val);
-        answers[idx] = clamp(val,1,5);
-        // markera valt
-        btns.forEach(b=>b.setAttribute('aria-pressed','false'));
-        btn.setAttribute('aria-pressed','true');
-        nextBtn.disabled = false;
-      });
-    });
-
-    nextBtn.addEventListener('click', goNext);
-    backBtn.addEventListener('click', goBack);
-    exportBtn.addEventListener('click', exportTxt);
-    restartBtn.addEventListener('click', ()=>{
-      for(let i=0;i<answers.length;i++) answers[i]=null;
-      idx = 0;
-      result.style.display='none';
-      quiz.style.display='block';
-      renderQuestion();
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
-
-    // Init
-    renderQuestion();
-  </script>
-</body>
-</html>
+<script>
+const LABELS={1:"Stämmer inte alls",2:"Stämmer lite",3:"Neutral / delvis",4:"Stämmer mycket",5:"Stämmer helt"};
+const QUESTIONS=[
+ {id:1,theme:"Kommunikation",text:"Jag uttrycker öppet mina behov i relationer.",reverse:false},
+ {id:2,theme:"Kommunikation",text:"Jag lyssnar aktivt när andra pratar.",reverse:false},
+ {id:3,theme:"Kommunikation",text:"Jag känner mig förstådd i viktiga relationer.",reverse:false},
+ {id:4,theme:"Tillitsfullhet",text:"Jag kan lita på personer i min närhet.",reverse:false},
+ {id:5,theme:"Tillitsfullhet",text:"Jag delar känsliga saker utan rädsla för svek.",reverse:false},
+ {id:6,theme:"Tillitsfullhet",text:"Jag upplever att andra litar på mig.",reverse:false},
+ {id:7,theme:"Stöd & Närhet",text:"Jag har någon jag kan vända mig till i svåra situationer.",reverse:false},
+ {id:8,theme:"Stöd & Närhet",text:"Jag känner mig känslomässigt nära minst en person.",reverse:false},
+ {id:9,theme:"Stöd & Närhet",text:"Jag upplever fysisk närhet som trygg och positiv.",reverse:false},
+ {id:10,theme:"Konflikthantering",text:"Jag kan hantera konflikter utan att relationen tar skada.",reverse:false},
+ {id:11,theme:"Konflikthantering",text:"Jag undviker ofta konflikter även när jag borde säga ifrån.",reverse:true},
+ {id:12,theme:"Konflikthantering",text:"Vi hittar gemensamma lösningar vid oenighet.",reverse:false},
+ {id:13,theme:"Tid & Prioritering",text:"Jag prioriterar tid med viktiga personer regelbundet.",reverse:false},
+ {id:14,theme:"Tid & Prioritering",text:"Jag upplever balans mellan relationer och övriga livet.",reverse:false},
+ {id:15,theme:"Tid & Prioritering",text:"Jag försummar ibland viktiga relationer på grund av stress.",reverse:true},
+ {id:16,theme:"Intimitet",text:"Jag känner mig trygg med att visa sårbarhet.",reverse:false},
+ {id:17,theme:"Intimitet",text:"Jag och min partner/dem jag står nära pratar öppet om känslor.",reverse:false},
+ {id:18,theme:"Intimitet",text:"Jag är nöjd med graden av intimitet i mina relationer.",reverse:false},
+ {id:19,theme:"Respekt",text:"Jag behandlas med respekt av personer i min närhet.",reverse:false},
+ {id:20,theme:"Respekt",text:"Jag visar respekt även när jag inte håller med.",reverse:false},
+ {id:21,theme:"Respekt",text:"Jag känner mig ofta nedvärderad i relationer.",reverse:true},
+ {id:22,theme:"Nätverk",text:"Jag har ett socialt nätverk som ger energi.",reverse:false},
+ {id:23,theme:"Nätverk",text:"Jag deltar regelbundet i sociala aktiviteter jag uppskattar.",reverse:false},
+ {id:24,theme:"Nätverk",text:"Jag känner mig ofta ensam.",reverse:true},
+ {id:25,theme:"Balans",text:"Jag upplever att mina relationer bidrar positivt till min livskvalitet.",reverse:false}
+];
+const THEMES={"Kommunikation":[1,2,3],"Tillit":[4,5,6],"Stöd & Närhet":[7,8,9],"Konflikthantering":[10,11,12],"Tid & Prioritering":[13,14,15],"Intimitet":[16,17,18],"Respekt":[19,20,21],"Nätverk":[22,23,24],"Balans":[25]};
+const state={index:0,answers:Array(QUESTIONS.length).fill(null)};
+const qThemeEl=document.getElementById("qTheme"),qIdEl=document.getElementById("qId"),qTextEl=document.getElementById("qText"),scaleEl=document.getElementById("scale");
+const progressEl=document.getElementById("progress"),counterEl=document.getElementById("counter"),questionView=document.getElementById("questionView"),resultView=document.getElementById("resultView");
+const totalBar=document.getElementById("totalBar"),totalTag=document.getElementById("totalTag"),totalText=document.getElementById("totalText"),subscalesContainer=document.getElementById("subscalesContainer");
+function updateProgress(){progressEl.style.width=((state.index/QUESTIONS.length)*100)+"%";counterEl.textContent=`${state.index+1} / ${QUESTIONS.length}`;}
+function renderQuestion(){const q=QUESTIONS[state.index];qThemeEl.textContent=q.theme;qIdEl.textContent=`Fråga ${state.index+1}/${QUESTIONS.length}`;qTextEl.textContent=q.text;scaleEl.innerHTML="";for(let i=1;i<=5;i++){const el=document.createElement("button");el.className="option";el.textContent=i;if(state.answers[state.index]===i)el.classList.add("active");el.onclick=()=>{state.answers[state.index]=i;renderQuestion();setTimeout(()=>next(),100)};scaleEl.appendChild(el);}updateProgress();}
+function toPercent(v,rev){const val=rev?(6-v):v;return((val-1)/4)*100;}
+function next(){if(state.index<QUESTIONS.length-1){state.index++;renderQuestion();}else showResult();}
+function showResult(){if(state.answers.includes(null)){state.index=state.answers.indexOf(null);renderQuestion();return;}questionView.classList.add("hidden");resultView.classList.remove("hidden");const perc=state.answers.map((v,i)=>toPercent(v,QUESTIONS[i].reverse));const total=Math.round(perc.reduce((a,b)=>a+b,0)/perc.length);totalBar.style.width=total+"%";totalTag.textContent=total>=75?"Stark":total>=50?"Stabil":"Sårbar";totalText.textContent=`Totalpoäng: ${total}/100`;subscalesContainer.innerHTML="";window.lastResult={total,subscales:{}};Object.entries(THEMES).forEach(([t,ids])=>{const vals=ids.map(i=>toPercent(state.answers[i-1],QUESTIONS[i-1].reverse));const avg=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);window.lastResult.subscales[t]=avg;const d=document.createElement("div");d.innerHTML=`<div style="display:flex;justify-content:space-between"><b>${t}</b><span class="tag ${avg>=75?'ok':avg>=50?'warn':'bad'}">${avg}/100</span></div><div class="meter"><span style="width:${avg}%"></span></div>`;subscalesContainer.appendChild(d);});}
+function prepareFormPayload(){const name=document.getElementById("cf_name").value.trim(),email=document.getElementById("cf_email").value.trim(),consent=document.getElementById("cf_consent").checked;document.getElementById("err_name").style.display=name?"none":"block";document.getElementById("err_email").style.display=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)?"none":"block";if(!name||!email||!consent)return false;const r=window.lastResult;document.getElementById("cf_total").value=r.total;document.getElementById("cf_summary").value=r.total>=75?"Stark":r.total>=50?"Stabil":"Sårbar";document.getElementById("cf_subscales").value=Object.entries(r.subscales).map(([k,v])=>`${k}:${v}/100`).join(" | ");return true;}
+renderQuestion();
+document.getElementById("nextBtn").onclick=next;
+document.getElementById("restartBtn").onclick=()=>{state.index=0;state.answers.fill(null);resultView.classList.add("hidden");questionView.classList.remove("hidden");renderQuestion();};
+document.getElementById("exportBtn").onclick=()=>{let txt="Relationer – resultat\n";QUESTIONS.forEach((q,i)=>{txt+=`Fråga ${q.id}: ${q.text} -> ${state.answers[i]}\n`});const blob=new Blob([txt],{type:"text/plain"});const a=document.createElement("a");a.href
